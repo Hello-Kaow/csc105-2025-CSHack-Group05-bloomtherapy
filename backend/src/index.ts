@@ -42,7 +42,6 @@ app.use("/auth", authRouter);
 app.use("/api/buckets", bucketRoutes);
 app.use("/api/diaries", diaryRouter);
 app.use("/api/quotes", quoteRouter);
-app.use("/api/messages", messageRouter);
 app.use("/api/heal-messages", messageRouter); 
 app.listen(PORT, () => {
     console.log("Server is running on http://localhost:%d", PORT);
