@@ -3,7 +3,7 @@ import "dotenv/config";
 import morgan from "morgan";
 import cors from "cors";
 import authRouter from "./routes/auth.js";
-
+import messageRouter from './routes/message'
 const app = express();
 const PORT = process.env.PORT;
 
@@ -25,6 +25,7 @@ res.send("Server is running 🚀");
 });
 
 app.use("/auth", authRouter);
+app.use('/api/messages', messageRouter)
 
 app.listen(PORT, () => {
     console.log("Server is running on http://localhost:%d", PORT);
