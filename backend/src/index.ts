@@ -4,6 +4,9 @@ import morgan from "morgan";
 import cors from "cors";
 
 import authRouter from "./routes/auth.js";
+import quizRouter from "./routes/quiz";
+import messagesRouter from "./routes/messages";
+
 import bucketRoutes from "./routes/bucketRoutes.js";
 import diaryRouter from "./routes/diary.js";
 import quoteRouter from "./routes/quote.js";
@@ -24,8 +27,12 @@ app.use(
     })
 );
 
+// Parse JSON bodies before route handlers are mounted
 app.use(express.json());
 app.use(morgan("dev"));
+
+app.use("/api/quiz", quizRouter);
+app.use("/api/messages", messagesRouter);
 
 app.get("/", (req, res) => {
     res.send("Server is running 🚀");

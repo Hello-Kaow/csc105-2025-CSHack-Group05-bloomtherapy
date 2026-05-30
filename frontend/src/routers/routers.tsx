@@ -2,6 +2,9 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import Loginpage from "../pages/Loginpage";
 import BucketList from "../pages/BucketListPage";
 import Signup from "../pages/Signuppage";
+import HumanityTest from "../pages/HumanityTestPage";
+import WhatKeepsYouHuman from "../pages/hWhatKeepsYouHumanPage";
+import TestMessages from "../pages/WhatKeepsYouHumanMessages";
 import Journal from "../pages/Journalpage";
 import AddDiary from "../pages/AddDiary";
 import EditDiary from "../pages/EditDiary";
@@ -28,6 +31,18 @@ const mainRouter = createBrowserRouter([
     {
         path: "/signup",
         element: <Signup/>
+    },
+    {
+        path: "/humanity-test",
+        element: <HumanityTest/>
+    },
+    {
+        path:"/humanitytest/what-keeps-you-human",
+        element:<WhatKeepsYouHuman />
+    },
+    {
+        path: "/humanitytest/what-keeps-you-human/messages",
+        element: <TestMessages />
     },
     {
         path: "/adddiary",
