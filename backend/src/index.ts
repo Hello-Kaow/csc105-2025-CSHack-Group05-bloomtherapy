@@ -38,10 +38,8 @@ app.get("/", (req, res) => {
     res.send("Server is running 🚀");
 });
 
-app.use("/auth", authRouter);
-app.use("/api/heal-messages", messageRouter);   
+app.use("/auth", authRouter); 
 app.use("/api/buckets", bucketRoutes);
-
 app.use("/api/diaries", diaryRouter);
 app.use("/api/quotes", quoteRouter);
 app.use("/api/messages", messageRouter);
