@@ -1,7 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
+// This is your Prisma schema file
 
 generator client {
   provider        = "prisma-client-js"
@@ -27,4 +24,46 @@ model TestMessage {
   createdAt DateTime @default(now())
 
   @@index([testName])
+}
+
+model Bucket {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  completed   Boolean  @default(false)
+  tag         String?
+  achievedDay Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Quote{
+  id            String      @id @default(cuid())
+  text          String      @default("Make sure you live.")
+
+  userId        String      @unique
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Diary{
+  id            String      @id @default(cuid())
+  title         String
+  story         String
+  date          DateTime
+
+  authorId      String
+  author        User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+model HealMessage {
+  id        String   @id @default(cuid())
+  text      String
+  userId    String
+  username  String   @default("Anonymous")
+  edited    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([createdAt])
 }
