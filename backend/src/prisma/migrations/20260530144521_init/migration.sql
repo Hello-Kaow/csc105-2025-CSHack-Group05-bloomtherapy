@@ -6,6 +6,14 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
+CREATE TABLE "TestMessage" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "message" TEXT NOT NULL,
+    "testName" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- CreateTable
 CREATE TABLE "Bucket" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "title" TEXT NOT NULL,
@@ -48,6 +56,9 @@ CREATE TABLE "HealMessage" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
+
+-- CreateIndex
+CREATE INDEX "TestMessage_testName_idx" ON "TestMessage"("testName");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Quote_userId_key" ON "Quote"("userId");

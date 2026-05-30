@@ -11,9 +11,7 @@ export const getMessages = async (_req: Request, res: Response) => {
 }
 
 export const createMessage = async (req: Request, res: Response) => {
-  const userId = (req as any).userId
-  if (!userId) return res.status(401).json({ error: 'Unauthorized' })
-
+  const userId = (req as any).userId || 'anonymous' 
   const { text, username } = req.body
   if (!text || text.trim().length === 0)
     return res.status(400).json({ error: 'Text is required' })
