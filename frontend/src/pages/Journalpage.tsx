@@ -40,16 +40,16 @@ export default function Journal(){
     };
 
     return(
-        <div className=" min-h-screen">
+        <div className="min-h-screen">
             <Navbar/>
 
             {/* project name */}
             <img src="public/projectname.svg" alt="" className="w-[300px] md:w-[400px] xl:hidden"/>
 
-            {/* dubmy */}
+            {/* dummy height — space below top navbar on desktop */}
             <div className="h-[63.68px] hidden xl:block"></div>
 
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col justify-center items-center lg:ml-52 lg:w-[calc(100%-208px)]">
                 <div className="flex flex-col justify-center items-start mt-[20px] gap-[20px]">
 
                     {/* view — image with quote overlay */}
