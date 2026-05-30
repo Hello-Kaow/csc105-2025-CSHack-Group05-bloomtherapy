@@ -166,8 +166,23 @@ export default function HealHeartMessage({ token, currentUserId, username }: Hea
         </div>
       )}
 
-      <div className="max-w-[980px] mx-auto px-4 py-8 sm:py-10 sm:px-8 lg:px-6 pb-16 font-['DM_Sans',sans-serif] text-[#2d4a2d]">
+      <main className="relative min-h-screen bg-white lg:ml-52 px-8 md:px-16 lg:px-28 py-16 overflow-hidden font-['DM_Sans',sans-serif] text-[#2d4a2d]">
+      {/* Forest background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <img
+              src="/forest.avif"
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover opacity-35 pointer-events-none z-0"
+          />
 
+          <div className="absolute inset-0 bg-white/70 pointer-events-none z-0" />
+      </div>
+
+      {/* Soft background decorations */}
+      <div className="pointer-events-none absolute top-16 right-10 w-80 h-80 bg-[#a8c4af]/20 rounded-full blur-3xl" />
+      <div className="pointer-events-none absolute bottom-20 right-40 w-56 h-56 bg-[#ff9b76]/10 rounded-full blur-3xl" />
+
+      <section className="relative z-10 max-w-5xl mx-auto">
         {/* ── Header ── */}
         <header className="text-center mb-8">
           <h1 className="font-['Lora',serif] text-[clamp(22px,5vw,32px)] font-semibold text-[#7aaa7a] m-0 mb-2.5 tracking-tight">
@@ -295,7 +310,8 @@ export default function HealHeartMessage({ token, currentUserId, username }: Hea
             })}
           </div>
         )}
-      </div>
+            </section>
+    </main>
     </>
   )
 }
