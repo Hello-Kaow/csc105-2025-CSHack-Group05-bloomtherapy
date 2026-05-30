@@ -4,13 +4,15 @@ import Navbar from "../components/Navbar";
 import ProgressBar from "../components/ProgressBar";
 import BucketCard from "../components/BucketCard";
 import BucketEditPopup from "../components/BucketEditPopup";
+import LoginRequiredPopup from "../components/LoginRequiredPopup";
 import type { BucketItem } from "../types/bucket";
+
+const AUTH_TOKEN_KEY = "token";
 
 export default function BucketList() {
     const bucketInputRef = useRef<HTMLInputElement>(null);
 
     const [bucketItems, setBucketItems] = useState<BucketItem[]>([]);
-
     const [newBucket, setNewBucket] = useState("");
     const [selectedItem, setSelectedItem] = useState<BucketItem | null>(null);
 
@@ -18,14 +20,31 @@ export default function BucketList() {
     const [editDescription, setEditDescription] = useState("");
     const [editAchievedDay, setEditAchievedDay] = useState("");
     const [editTag, setEditTag] = useState("");
-    
+
+    const [showLoginPopup, setShowLoginPopup] = useState(false);
+
+    const isLoggedIn = () => {
+        return !!localStorage.getItem(AUTH_TOKEN_KEY);
+    };
+
+    const requireLogin = () => {
+        if (!isLoggedIn()) {
+            setShowLoginPopup(true);
+            return false;
+        }
+
+        return true;
+    };
+
     useEffect(() => {
         const loadBuckets = async () => {
+            if (!isLoggedIn()) return;
+
             try {
                 const buckets = await bucketApi.getBuckets();
                 setBucketItems(buckets);
             } catch (error) {
-                console.error(error);
+                console.error("Failed to load buckets:", error);
             }
         };
 
@@ -35,42 +54,48 @@ export default function BucketList() {
     const completedCount = bucketItems.filter((item) => item.completed).length;
     const totalCount = bucketItems.length;
 
- const addBucket = async () => {
-    if (!newBucket.trim()) return;
+    const addBucket = async () => {
+        if (!requireLogin()) return;
+        if (!newBucket.trim()) return;
 
-    try {
-        const createdBucket = await bucketApi.createBucket({
-            title: newBucket.trim(),
-            completed: false,
-        });
+        try {
+            const createdBucket = await bucketApi.createBucket({
+                title: newBucket.trim(),
+                completed: false,
+            });
 
-        setBucketItems((prev) => [createdBucket, ...prev]);
-        setNewBucket("");
-    } catch (error) {
-        console.error("Failed to add bucket:", error);
-    }
-};
-   const toggleCompleted = async (id: BucketItem["id"]) => {
-    const itemToUpdate = bucketItems.find((item) => item.id === id);
-    if (!itemToUpdate) return;
+            setBucketItems((prev) => [createdBucket, ...prev]);
+            setNewBucket("");
+        } catch (error) {
+            console.error("Failed to add bucket:", error);
+        }
+    };
 
-    try {
-        const updatedBucket = await bucketApi.updateBucket(id, {
-            completed: !itemToUpdate.completed,
-            achievedDay: !itemToUpdate.completed
-                ? itemToUpdate.achievedDay || 1
-                : undefined,
-        });
+    const toggleCompleted = async (id: BucketItem["id"]) => {
+        if (!requireLogin()) return;
 
-        setBucketItems((prev) =>
-            prev.map((item) => (item.id === id ? updatedBucket : item))
-        );
-    } catch (error) {
-        console.error(error);
-    }
-};
+        const itemToUpdate = bucketItems.find((item) => item.id === id);
+        if (!itemToUpdate) return;
+
+        try {
+            const updatedBucket = await bucketApi.updateBucket(id, {
+                completed: !itemToUpdate.completed,
+                achievedDay: !itemToUpdate.completed
+                    ? itemToUpdate.achievedDay || 1
+                    : undefined,
+            });
+
+            setBucketItems((prev) =>
+                prev.map((item) => (item.id === id ? updatedBucket : item))
+            );
+        } catch (error) {
+            console.error("Failed to update bucket:", error);
+        }
+    };
 
     const openEditPopup = (item: BucketItem) => {
+        if (!requireLogin()) return;
+
         setSelectedItem(item);
         setEditTitle(item.title);
         setEditDescription(item.description || "");
@@ -79,46 +104,53 @@ export default function BucketList() {
     };
 
     const saveEdit = async () => {
-    if (!selectedItem || !editTitle.trim()) return;
+        if (!requireLogin()) return;
+        if (!selectedItem || !editTitle.trim()) return;
 
-    try {
-        const updatedBucket = await bucketApi.updateBucket(selectedItem.id, {
-            title: editTitle.trim(),
-            description: selectedItem.completed ? undefined : editDescription,
-            achievedDay: selectedItem.completed
-                ? Number(editAchievedDay) || 1
-                : undefined,
-            tag: editTag.trim() ? editTag.trim().toUpperCase() : undefined,
-            completed: selectedItem.completed,
-        });
+        try {
+            const updatedBucket = await bucketApi.updateBucket(selectedItem.id, {
+                title: editTitle.trim(),
+                description: selectedItem.completed ? undefined : editDescription,
+                achievedDay: selectedItem.completed
+                    ? Number(editAchievedDay) || 1
+                    : undefined,
+                tag: editTag.trim() ? editTag.trim().toUpperCase() : undefined,
+                completed: selectedItem.completed,
+            });
 
-        setBucketItems((prev) =>
-            prev.map((item) =>
-                item.id === selectedItem.id ? updatedBucket : item
-            )
-        );
+            setBucketItems((prev) =>
+                prev.map((item) =>
+                    item.id === selectedItem.id ? updatedBucket : item
+                )
+            );
 
-        setSelectedItem(null);
-    } catch (error) {
-        console.error(error);
-    }
-};
+            setSelectedItem(null);
+        } catch (error) {
+            console.error("Failed to save bucket:", error);
+        }
+    };
 
     const deleteBucket = async () => {
-    if (!selectedItem) return;
+        if (!requireLogin()) return;
+        if (!selectedItem) return;
 
-    try {
-        await bucketApi.deleteBucket(selectedItem.id);
+        try {
+            await bucketApi.deleteBucket(selectedItem.id);
 
-        setBucketItems((prev) =>
-            prev.filter((item) => item.id !== selectedItem.id)
-        );
+            setBucketItems((prev) =>
+                prev.filter((item) => item.id !== selectedItem.id)
+            );
 
-        setSelectedItem(null);
-    } catch (error) {
-        console.error(error);
-    }
-};
+            setSelectedItem(null);
+        } catch (error) {
+            console.error("Failed to delete bucket:", error);
+        }
+    };
+
+    const focusBucketInput = () => {
+        if (!requireLogin()) return;
+        bucketInputRef.current?.focus();
+    };
 
     return (
         <>
@@ -130,10 +162,10 @@ export default function BucketList() {
                     <img
                         src="/nature.avif"
                         alt=""
-                        className="absolute inset-0 h-full w-full object-cover opacity-[0.4]"
+                        className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none z-0"
                     />
 
-                    <div className="absolute inset-0 bg-white/65" />
+                    <div className="absolute inset-0 bg-white/65 pointer-events-none" />
                 </div>
 
                 {/* Soft background decorations */}
@@ -168,8 +200,16 @@ export default function BucketList() {
                             ref={bucketInputRef}
                             value={newBucket}
                             onChange={(e) => setNewBucket(e.target.value)}
+                            onFocus={() => {
+                                if (!isLoggedIn()) {
+                                    setShowLoginPopup(true);
+                                    bucketInputRef.current?.blur();
+                                }
+                            }}
                             onKeyDown={(e) => {
-                                if (e.key === "Enter") addBucket();
+                                if (e.key === "Enter") {
+                                    addBucket();
+                                }
                             }}
                             placeholder="What keeps you moving forward? (e.g. See the ocean again)"
                             className="w-full bg-transparent border-b border-white/60 outline-none text-white placeholder:text-white/90 py-2"
@@ -197,7 +237,8 @@ export default function BucketList() {
 
                         {/* Decorative add card */}
                         <button
-                            onClick={() => bucketInputRef.current?.focus()}
+                            type="button"
+                            onClick={focusBucketInput}
                             className="rounded-xl border-2 border-dashed border-[#a8c4af]/60 p-6 min-h-32 flex flex-col items-center justify-center text-center text-[#8aad8a] hover:bg-[#f3f8ed] hover:border-[#8aad8a] transition"
                         >
                             <span className="text-2xl mb-2">🌱</span>
@@ -225,6 +266,13 @@ export default function BucketList() {
                         onClose={() => setSelectedItem(null)}
                     />
                 )}
+
+                <LoginRequiredPopup
+                    isOpen={showLoginPopup}
+                    onClose={() => setShowLoginPopup(false)}
+                    message="Please login first to save your bucket list."
+                    loginPath="/login"
+                />
             </main>
         </>
     );
