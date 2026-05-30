@@ -1,13 +1,13 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import type { ReactNode } from "react";
 import Loginpage from "../pages/Loginpage";
-import Homepage from "../pages/Journal";
 import Signup from "../pages/Signuppage";
+import Journal from "../pages/Journal";
 
 const mainRouter = createBrowserRouter([
     {
         path: "/",
-        element: <Homepage/>
+        element: <Journal/>
     },
     {
         path: "/login",
