@@ -2,41 +2,41 @@ import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Diary from "../components/Diary";
 import { NavLink } from "react-router-dom";
+import { journalApi, type Diary as DiaryType } from "../apis/journalApi";
+import { quoteApi } from "../apis/quoteApi";
 
 export default function Journal(){
     const [quote, setQuote] = useState("Make sure you live.");
     const [isEditing, setIsEditing] = useState(false);
     const [editText, setEditText] = useState("");
+    const [diaries, setDiaries] = useState<DiaryType[]>([]);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) return;
-        fetch("http://localhost:3000/quote", {
-            headers: { Authorization: `Bearer ${token}` },
-        })
-            .then((res) => res.json())
+
+        quoteApi.getQuote()
             .then((data) => setQuote(data.text))
+            .catch(() => {});
+
+        journalApi.getDiaries()
+            .then((data) => setDiaries(data))
             .catch(() => {});
     }, []);
 
     const handleSave = async () => {
-        const token = localStorage.getItem("token");
-        if (!token) return;
         try {
-            const res = await fetch("http://localhost:3000/quote", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({ text: editText }),
-            });
-            if (res.ok) {
-                const data = await res.json();
-                setQuote(data.text);
-            }
+            const data = await quoteApi.updateQuote(editText);
+            setQuote(data.text);
         } catch {}
         setIsEditing(false);
+    };
+
+    const handleDelete = async (id: string) => {
+        try {
+            await journalApi.deleteDiary(id);
+            setDiaries((prev) => prev.filter((d) => d.id !== id));
+        } catch {}
     };
 
     return(
@@ -99,10 +99,9 @@ export default function Journal(){
 
                 {/* display diary */}
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mt-[20px] gap-[10px]">
-                    <Diary/>
-                    <Diary/>
-                    <Diary/>
-                    <Diary/>
+                    {diaries.map((diary) => (
+                        <Diary key={diary.id} diary={diary} onDelete={handleDelete} />
+                    ))}
                 </div>
             </div>
         </div>
