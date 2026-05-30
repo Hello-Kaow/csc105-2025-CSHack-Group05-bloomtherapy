@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 export default function Diary(){
     return(
         <div>
@@ -18,7 +20,9 @@ export default function Diary(){
                     <div className="flex flex-row gap-[20px]">
                         <img src="public/bin.svg" alt="bin" className="w-[15px] h-[15px]"/>
 
-                        <img src="public/edit.svg" alt="pencil"className="w-[15px] h-[15px]" />
+                        <NavLink to = "/editdiary">
+                            <img src="public/edit.svg" alt="pencil"className="w-[15px] h-[15px]" />
+                        </NavLink>
                     </div>
                 </div>
             </div>

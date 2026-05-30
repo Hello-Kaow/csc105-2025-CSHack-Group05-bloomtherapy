@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import Loginpage from "../pages/Loginpage";
 import Signup from "../pages/Signuppage";
 import Journal from "../pages/Journalpage";
+import AddDiary from "../pages/AddDiary";
+import EditDiary from "../pages/EditDiary";
 
 const mainRouter = createBrowserRouter([
     {
@@ -16,6 +18,14 @@ const mainRouter = createBrowserRouter([
     {
         path: "/signup",
         element: <Signup/>
+    },
+    {
+        path: "/adddiary",
+        element: <AddDiary/>
+    },
+    {
+        path: "/editdiary",
+        element: <EditDiary/>
     }
 ]);
 
