@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", authRouter);
-
+app.use("/api/heal-messages", messageRouter); 
 app.listen(PORT, () => {
     console.log("Server is running on http://localhost:%d", PORT);
 });
