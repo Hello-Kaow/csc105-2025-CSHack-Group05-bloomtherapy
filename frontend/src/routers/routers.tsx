@@ -16,7 +16,7 @@ const mainRouter = createBrowserRouter([
     {
         path: "/signup",
         element: <Signup/>
-    },
+    }
 ]);
 
 export default mainRouter;
