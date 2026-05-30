@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Loginpage from "../pages/Loginpage";
+import BucketList from "../pages/BucketListPage";
 import Signup from "../pages/Signuppage";
 import Journal from "../pages/Journalpage";
 import AddDiary from "../pages/AddDiary";
@@ -32,11 +33,11 @@ const mainRouter = createBrowserRouter([
         path: "/adddiary",
         element: <AddDiary/>
     },
-    {
-        path: "/editdiary",
-        element: <EditDiary/>
-    },
-    { path: "/heal-heart", element: <HealHeartWrapper /> },
+    // {
+    //     path: "/journal",
+    //     element: <Journal/>
+    // }
+
 ]);
 
 export default mainRouter;
