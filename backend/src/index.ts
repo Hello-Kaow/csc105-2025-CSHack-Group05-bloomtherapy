@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", authRouter);
-
+app.use("/api/heal-messages", messageRouter);   
 app.use("/api/buckets", bucketRoutes);
 
 app.use("/api/diaries", diaryRouter);
