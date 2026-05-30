@@ -38,3 +38,16 @@ model Diary{
   authorId      String
   author        User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
+
+model HealMessage {
+  id        String   @id @default(cuid())
+  text      String
+  userId    String
+  username  String   @default("Anonymous")
+  edited    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([createdAt])
+}
