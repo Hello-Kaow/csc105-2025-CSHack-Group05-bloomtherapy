@@ -128,9 +128,9 @@ export default function BucketList() {
                 {/* Nature background */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">
                     <img
-                        src="/nature.jpg"
+                        src="/nature.avif"
                         alt=""
-                        className="absolute inset-0 h-full w-full object-cover opacity-[0.15]"
+                        className="absolute inset-0 h-full w-full object-cover opacity-[0.4]"
                     />
 
                     <div className="absolute inset-0 bg-white/65" />
