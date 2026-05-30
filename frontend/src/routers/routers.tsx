@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import type { ReactNode } from "react";
 import Loginpage from "../pages/Loginpage";
-import Homepage from "../pages/Homepage";
+import Homepage from "../pages/Journal";
 import Signup from "../pages/Signuppage";
 
 const mainRouter = createBrowserRouter([
