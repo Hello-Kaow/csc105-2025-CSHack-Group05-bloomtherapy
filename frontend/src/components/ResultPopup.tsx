@@ -70,7 +70,7 @@ const ResultPopup: React.FC<{
             <button onClick={() => setShowLeaveMessage(true)} className="text-[10px] lg:text-xs tracking-widest uppercase font-sans transition-all duration-150 px-3 py-1.5 rounded-lg border" style={{ color: result.color, borderColor: result.color }}>
               Leave Message
             </button>
-            <button onClick={() => { onClose(); navigate("/humanitytest"); }} className="text-[10px] md:text-[11px] lg:text-[12px] tracking-widest uppercase font-sans transition-all duration-150 px-4 py-1.5 rounded-lg text-white" style={{ backgroundColor: result.color }}>
+            <button onClick={() => { onClose(); navigate("/humanity-test"); }} className="text-[10px] md:text-[11px] lg:text-[12px] tracking-widest uppercase font-sans transition-all duration-150 px-4 py-1.5 rounded-lg text-white" style={{ backgroundColor: result.color }}>
               Done
             </button>
           </div>

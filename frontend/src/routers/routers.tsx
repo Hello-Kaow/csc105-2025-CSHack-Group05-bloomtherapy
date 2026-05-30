@@ -22,7 +22,7 @@ const mainRouter = createBrowserRouter([
         element: <Signup/>
     },
     {
-        path: "/humanitytest",
+        path: "/humanity-test",
         element: <HumanityTest/>
     },
     {

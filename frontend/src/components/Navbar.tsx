@@ -14,9 +14,9 @@ import {
 
 
 const navItems = [
-    { label: "Journal", icon: BookOpen, to: "/journal" },
+    { label: "Journal", icon: BookOpen, to: "/" },
     { label: "Bucket List", icon: ListChecks, to: "/bucket-list" },
-    { label: "Humanity Test", icon: Brain, to: "/humanitytest" },
+    { label: "Humanity Test", icon: Brain, to: "/humanity-test" },
     { label: "Heal Heart", icon: Heart, to: "/heal-heart" },
 ];
 

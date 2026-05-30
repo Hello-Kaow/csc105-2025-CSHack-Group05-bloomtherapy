@@ -20,9 +20,11 @@ model User{
   password      String
 }
 
-model Message {
+model TestMessage {
   id        String   @id @default(cuid())
   message   String
   testName  String
   createdAt DateTime @default(now())
+
+  @@index([testName])
 }
