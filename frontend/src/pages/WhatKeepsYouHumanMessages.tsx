@@ -56,14 +56,15 @@ const TestMessages: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#f5ebe8]">
+    <div className="flex min-h-screen bg-white">
       <Navbar />
-      <main className="flex-1 p-6 lg:ml-52 lg:pl-10">
+      <main className="flex-1 p-6 lg:ml-52 lg:pl-10 max-w-3xl">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-2xl font-bold text-[#7a9e7e]">Leave a Message</h1>
           <button
             onClick={() => navigate(-1)}
-            className="text-sm text-[#4a7a4a] border px-3 py-1 rounded"
+            className="text-sm text-[#4a7a4a] border px-3 py-1 rounded
+            rounded hover:bg-[#f0f4ef] transition-colors"
           >
             Back
           </button>
@@ -71,16 +72,16 @@ const TestMessages: React.FC = () => {
 
         <p className="text-sm text-gray-500 mb-4">Share an anonymous message for others taking this test.</p>
 
-        <div className="mb-4">
+        <div className="mb-4 w-full">
           <textarea
             rows={4}
             value={text}
             onChange={(e) => setText(e.target.value)}
-            className="w-full rounded p-3"
+            className="w-full bg-[#A2D0AA] rounded-xl p-3 text-white placeholder-white/70 focus:outline-none resize-none text-sm md:text-base"
             placeholder="Write something..."
           />
           <div className="flex justify-end mt-2">
-            <button onClick={submit} className="bg-[#4a7a4a] text-white px-4 py-2 rounded">
+            <button onClick={submit} className="bg-[#4a7a4a] text-white px-4 py-2 rounded-lg text-sm md:text-base hover:bg-[#3a6a3a] transition-colors">
               Submit
             </button>
           </div>

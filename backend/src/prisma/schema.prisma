@@ -8,13 +8,14 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  
 }
 
-model User{
-  id            String      @id @default(cuid(2))
-  username      String      @unique
-  password      String
+model User {
+  id       String  @id @default(cuid(2))
+  username String  @unique
+  password String
+  quote    Quote?
+  diaries  Diary[]
 }
 
 model TestMessage {
@@ -37,22 +38,22 @@ model Bucket {
   updatedAt   DateTime @updatedAt
 }
 
-model Quote{
-  id            String      @id @default(cuid())
-  text          String      @default("Make sure you live.")
+model Quote {
+  id   String @id @default(cuid())
+  text String @default("Make sure you live.")
 
-  userId        String      @unique
-  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Diary{
-  id            String      @id @default(cuid())
-  title         String
-  story         String
-  date          DateTime
+model Diary {
+  id    String   @id @default(cuid())
+  title String
+  story String
+  date  DateTime
 
-  authorId      String
-  author        User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
 
 model HealMessage {
