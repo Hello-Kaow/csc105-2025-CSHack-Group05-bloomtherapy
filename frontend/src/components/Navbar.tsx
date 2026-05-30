@@ -74,14 +74,6 @@ export default function Navbar() {
             <div className="flex flex-col gap-1 mt-4 border-t border-white/20 pt-4">
                 {isLoggedIn ? (
                     <>
-                        {/* <NavLink
-                            to="/profile"
-                            onClick={() => setIsOpen(false)}
-                            className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-white/80 hover:bg-white/20 hover:text-white transition-colors"
-                        >
-                            <User size={16} />
-                            Profile
-                        </NavLink> */}
                         <button onClick={() => setIsOpen(false)}className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-white/80 hover:bg-white/20 hover:text-white transition-colors w-full text-left">
                             <User size={16} /> 
                                     {user ? user.username : "Profile"}
