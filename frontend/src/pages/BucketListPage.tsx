@@ -44,10 +44,10 @@ export default function BucketList() {
             completed: false,
         });
 
-        setBucketItems([createdBucket, ...bucketItems]);
+        setBucketItems((prev) => [createdBucket, ...prev]);
         setNewBucket("");
     } catch (error) {
-        console.error(error);
+        console.error("Failed to add bucket:", error);
     }
 };
    const toggleCompleted = async (id: BucketItem["id"]) => {
@@ -176,6 +176,7 @@ export default function BucketList() {
                         />
 
                         <button
+                            type="button"
                             onClick={addBucket}
                             className="bg-[#8daa96] hover:bg-[#7f9f87] text-white font-bold px-8 py-3 rounded-md shadow transition whitespace-nowrap"
                         >
