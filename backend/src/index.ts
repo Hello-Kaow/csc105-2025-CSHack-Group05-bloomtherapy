@@ -33,14 +33,12 @@ app.get("/", (req, res) => {
 
 app.use("/auth", authRouter);
 
-// Add this
 app.use("/api/buckets", bucketRoutes);
 
-// Optional, if your frontend uses these later
 app.use("/api/diaries", diaryRouter);
 app.use("/api/quotes", quoteRouter);
 app.use("/api/messages", messageRouter);
-
+app.use("/api/heal-messages", messageRouter); 
 app.listen(PORT, () => {
     console.log("Server is running on http://localhost:%d", PORT);
 });
