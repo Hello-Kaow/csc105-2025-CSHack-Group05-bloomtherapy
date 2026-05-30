@@ -17,6 +17,26 @@ model User{
   id            String      @id @default(cuid(2))
   username      String      @unique
   password      String
+  diary         Diary[]
+  quote         Quote?
+}
+
+model Quote{
+  id            String      @id @default(cuid(2))
+  text          String      @default("Make sure you live.")
+
+  userId        String      @unique
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Diary{
+  id            String      @id @default(cuid(2))
+  title         String
+  story         String
+  date          DateTime
+
+  authorId      String
+  author        User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
 
 model HealMessage {

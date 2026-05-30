@@ -3,6 +3,9 @@ import "dotenv/config";
 import morgan from "morgan";
 import cors from "cors";
 import authRouter from "./routes/auth.js";
+import diaryRouter from "./routes/diary.js";
+import quoteRouter from "./routes/quote.js";
+
 import messageRouter from './routes/message'
 const app = express();
 const PORT = process.env.PORT;
@@ -25,6 +28,8 @@ res.send("Server is running 🚀");
 });
 
 app.use("/auth", authRouter);
+app.use("/diary", diaryRouter);
+app.use("/quote", quoteRouter);
 app.use('/api/heal-messages', messageRouter)
 
 app.listen(PORT, () => {

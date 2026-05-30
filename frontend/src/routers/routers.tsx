@@ -1,10 +1,11 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Loginpage from "../pages/Loginpage";
 import Signup from "../pages/Signuppage";
-import NewPageforTest from "../pages/NewPageforTest";
+import Journal from "../pages/Journalpage";
+import AddDiary from "../pages/AddDiary";
+import EditDiary from "../pages/EditDiary";
 import HealHeartMessage from '../pages/HealHeartMessagepage';
 import { useAuth } from '../context/AuthContext';
-// import Journal from "../pages/Journal";
 
 const HealHeartWrapper = () => {
     const { token, user } = useAuth();
@@ -13,12 +14,29 @@ const HealHeartWrapper = () => {
     return <HealHeartMessage token={token || ""} currentUserId={userId} username={user?.username}/>;
 };
 
+
 const mainRouter = createBrowserRouter([
-    // { path: "/", element: <Journal /> },
-    { path: "/login", element: <Loginpage /> },
-    { path: "/signup", element: <Signup /> },
+    {
+        path: "/",
+        element: <Journal/>
+    },
+    {
+        path: "/login",
+        element: <Loginpage/>
+    },
+    {
+        path: "/signup",
+        element: <Signup/>
+    },
+    {
+        path: "/adddiary",
+        element: <AddDiary/>
+    },
+    {
+        path: "/editdiary",
+        element: <EditDiary/>
+    },
     { path: "/heal-heart", element: <HealHeartWrapper /> },
-    { path: "/newpagefortest", element: <NewPageforTest /> },
 ]);
 
 export default mainRouter;
