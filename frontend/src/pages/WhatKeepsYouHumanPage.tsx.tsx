@@ -128,10 +128,10 @@ const WhatKeepsYouHuman: React.FC = () => {
       )}
 
       <main className="flex-1 flex flex-col px-6 pt-10 pb-8 lg:ml-52 lg:pl-10 items-center lg:items-start">
-        <h1 className="text-2xl lg:text-3xl font-bold text-[#7a9e7e] mb-2 w-full max-w-md lg:max-w-none">
+        <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#7a9e7e] mb-2 w-full max-w-md lg:max-w-none">
           What Keeps You Human?
         </h1>
-        <p className="text-xs lg:text-sm text-gray-400 max-w-sm leading-relaxed mb-6 font-sans w-full">
+        <p className="text-[13px] md:text-[16px] lg:text-[18px] text-[#5a8a5a] leading-relaxed mb-6 font-sans w-full">
           A self-reflection personality test that helps users discover what emotionally keeps them
           going and gives meaning to their life.
         </p>
