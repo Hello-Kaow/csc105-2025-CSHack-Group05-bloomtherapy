@@ -11,11 +11,20 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(cuid())
+  id       String  @id @default(cuid(2))
   username String  @unique
   password String
-  diary    Diary[]
   quote    Quote?
+  diaries  Diary[]
+}
+
+model TestMessage {
+  id        String   @id @default(cuid())
+  message   String
+  testName  String
+  createdAt DateTime @default(now())
+
+  @@index([testName])
 }
 
 model Bucket {
@@ -29,22 +38,22 @@ model Bucket {
   updatedAt   DateTime @updatedAt
 }
 
-model Quote{
-  id            String      @id @default(cuid())
-  text          String      @default("Make sure you live.")
+model Quote {
+  id   String @id @default(cuid())
+  text String @default("Make sure you live.")
 
-  userId        String      @unique
-  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Diary{
-  id            String      @id @default(cuid())
-  title         String
-  story         String
-  date          DateTime
+model Diary {
+  id    String   @id @default(cuid())
+  title String
+  story String
+  date  DateTime
 
-  authorId      String
-  author        User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
 
 model HealMessage {

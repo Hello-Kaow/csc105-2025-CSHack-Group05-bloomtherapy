@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import type { HealMessage } from '../../types/heal-heart'
 import Navbar from '../components/Navbar'
 import EditMessageModal from '../popup/EditMessageModal'
+import { healHeartApi } from '../apis/healHeartApi'
 
 // ─── Helper ───────────────────────────────────────────────────────────────────
 function timeAgo(dateStr: string): string {
@@ -18,11 +19,9 @@ function timeAgo(dateStr: string): string {
 interface HealHeartMessageProps {
   token: string
   currentUserId: string
-  /** ชื่อ user จริง — ถ้าไม่ได้ login ส่งมาเป็น undefined จะใช้ "Anonymous" แทน */
   username?: string
 }
 
-const API = 'http://localhost:3000/api/heal-messages'
 const MAX = 500
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -33,35 +32,26 @@ export default function HealHeartMessage({ token, currentUserId, username }: Hea
   const [charCount, setCharCount] = useState(0)
   const [posting, setPosting]     = useState(false)
   const [error, setError]         = useState<string | null>(null)
-
-  // modal state
   const [editTarget, setEditTarget] = useState<HealMessage | null>(null)
-
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
-
-  // Stable headers — memo-ised by token value only
-  const authHeaders = useRef<HeadersInit>({})
-  useEffect(() => {
-    authHeaders.current = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    }
-  }, [token])
 
   // ─── Fetch ──────────────────────────────────────────────────────────────────
   const fetchMessages = useCallback(async () => {
     try {
-      const res = await fetch(API, { headers: authHeaders.current })
-      if (!res.ok) throw new Error()
-      setMessages(await res.json())
+      const data = await healHeartApi.getMessages(token)
+      setMessages(data as HealMessage[])
     } catch {
       setError('Could not load messages. Please refresh.')
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [token])
 
   useEffect(() => { fetchMessages() }, [fetchMessages])
+
+  // ─── Derived ────────────────────────────────────────────────────────────────
+  const displayName = username?.trim() || 'Anonymous'
+  const myCount     = messages.filter(m => m.userId === currentUserId).length
+  const remaining   = MAX - charCount
 
   // ─── Post ───────────────────────────────────────────────────────────────────
   async function handlePost() {
@@ -84,14 +74,8 @@ export default function HealHeartMessage({ token, currentUserId, username }: Hea
     setCharCount(0)
 
     try {
-      const res = await fetch(API, {
-        method: 'POST',
-        headers: authHeaders.current,
-        body: JSON.stringify({ text: trimmed, username: displayName }),
-      })
-      if (!res.ok) throw new Error()
-      const msg: HealMessage = await res.json()
-      setMessages(prev => prev.map(m => m.id === temp.id ? msg : m))
+      const msg = await healHeartApi.createMessage(token, trimmed, displayName)
+      setMessages(prev => prev.map(m => m.id === temp.id ? msg as HealMessage : m))
     } catch {
       setMessages(prev => prev.filter(m => m.id !== temp.id))
       setText(trimmed)
@@ -107,15 +91,14 @@ export default function HealHeartMessage({ token, currentUserId, username }: Hea
     const snapshot = messages
     setMessages(prev => prev.filter(m => m.id !== id))
     try {
-      const res = await fetch(`${API}/${id}`, { method: 'DELETE', headers: authHeaders.current })
-      if (!res.ok) throw new Error()
+      await healHeartApi.deleteMessage(token, id)
     } catch {
       setMessages(snapshot)
       setError('Failed to delete. Please try again.')
     }
   }
 
-  // ─── Edit save (called from modal) ──────────────────────────────────────────
+  // ─── Edit save ───────────────────────────────────────────────────────────────
   async function handleEditSave(newText: string) {
     if (!editTarget || !newText.trim()) return
     const { id } = editTarget
@@ -125,22 +108,12 @@ export default function HealHeartMessage({ token, currentUserId, username }: Hea
     setEditTarget(null)
 
     try {
-      const res = await fetch(`${API}/${id}`, {
-        method: 'PATCH',
-        headers: authHeaders.current,
-        body: JSON.stringify({ text: newText.trim() }),
-      })
-      if (!res.ok) throw new Error()
+      await healHeartApi.updateMessage(token, id, newText.trim())
     } catch {
       setMessages(snapshot)
       setError('Failed to update. Please try again.')
     }
   }
-
-  // ─── Derived ────────────────────────────────────────────────────────────────
-  const displayName = username?.trim() || 'Anonymous'
-  const myCount     = messages.filter(m => m.userId === currentUserId).length
-  const remaining   = MAX - charCount
 
   // ─── Render ─────────────────────────────────────────────────────────────────
   return (
@@ -223,7 +196,6 @@ export default function HealHeartMessage({ token, currentUserId, username }: Hea
         {/* ── Post box ── */}
         <div className="bg-[#f6fbf6] border border-[#c0d8c0] rounded-xl p-5 mb-8">
           <textarea
-            ref={textareaRef}
             className="w-full border-none outline-none resize-none bg-transparent font-['DM_Sans',sans-serif] text-[15px] text-[#2d4a2d] leading-relaxed placeholder:text-[#aac8aa]"
             rows={3}
             value={text}
@@ -278,7 +250,7 @@ export default function HealHeartMessage({ token, currentUserId, username }: Hea
                   </p>
                   <div className="flex justify-between items-center flex-wrap gap-1.5 mt-auto">
                     <div className="text-xs text-[#8aaa8a]">
-                      {m.username || 'Anonymous'}   
+                      {m.username || 'Anonymous'}
                       {m.edited && <span className="text-[10px] italic"> · edited</span>}
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
