@@ -13,11 +13,12 @@ export const MessageModel = {
     });
   },
 
-  create: async (userId: string, text: string) => {
+  create: async (userId: string, text: string, username: string = 'Anonymous') => {
     return await prisma.healMessage.create({
       data: {
         userId,
-        text
+        text,
+        username,
       }
     });
   },

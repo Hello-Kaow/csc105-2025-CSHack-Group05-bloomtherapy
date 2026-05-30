@@ -38,20 +38,20 @@ export default function EditMessageModal({
           aria-label="Edit message"
         />
         <div className="flex gap-3 justify-end mt-4">
-          <button
-            className="bg-[#f87171] text-white border-none rounded-lg px-6 py-2 text-sm font-medium font-['DM_Sans',_sans-serif] cursor-pointer hover:opacity-85 transition-opacity"
-            onClick={onCancel}
-          >
-            CANCEL
-          </button>
-          <button
-            className="bg-[#86efac] text-white border-none rounded-lg px-6 py-2 text-sm font-medium font-['DM_Sans',_sans-serif] cursor-pointer hover:opacity-85 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
-            onClick={onSave}
-            disabled={!editText.trim()}
-          >
-            SAVE
-          </button>
-        </div>
+  <button
+    className="bg-transparent text-[#8aaa8a] border-none px-6 py-2 text-sm font-medium font-['DM_Sans',_sans-serif] cursor-pointer hover:opacity-70 transition-opacity"
+    onClick={onCancel}
+  >
+    Cancel
+  </button>
+  <button
+    className="bg-[#7aaa7a] text-white border-none rounded-[7px] px-7 py-2 font-['DM_Sans',_sans-serif] text-[13px] font-medium tracking-wide cursor-pointer transition-all duration-150 hover:opacity-85 disabled:opacity-40 disabled:cursor-not-allowed"
+    onClick={onSave}
+    disabled={!editText.trim()}
+  >
+    Save
+  </button>
+</div>
       </div>
     </div>
   )

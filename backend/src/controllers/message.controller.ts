@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 import { MessageModel } from '../models/message.model'
 
-// GET /api/messages — public
 export const getMessages = async (_req: Request, res: Response) => {
   try {
     const messages = await MessageModel.findAll()
@@ -11,28 +10,28 @@ export const getMessages = async (_req: Request, res: Response) => {
   }
 }
 
-// POST /api/messages — auth required
 export const createMessage = async (req: Request, res: Response) => {
-  const userId = (req as any).user?.id;
+  const userId = (req as any).userId
   if (!userId) return res.status(401).json({ error: 'Unauthorized' })
 
-  const { text } = req.body
+  const { text, username } = req.body
   if (!text || text.trim().length === 0)
     return res.status(400).json({ error: 'Text is required' })
   if (text.length > 500)
     return res.status(400).json({ error: 'Text must be 500 characters or less' })
 
   try {
-    const message = await MessageModel.create(userId, text.trim())
+    console.log("creating with:", { userId, text: text.trim(), username })  // ← เพิ่มตรงนี้
+    const message = await MessageModel.create(userId, text.trim(), username)
     res.status(201).json(message)
-  } catch {
+  } catch (error) {
+    console.error("🔥 Error:", error)
     res.status(500).json({ error: 'Failed to create message' })
   }
 }
 
-// PATCH /api/messages/:id — owner only
 export const updateMessage = async (req: Request, res: Response) => {
-  const userId = (req as any).user?.id;
+  const userId = (req as any).userId; // แก้ไขให้ตรงกัน
   if (!userId) return res.status(401).json({ error: 'Unauthorized' })
 
   const { id } = req.params
@@ -55,9 +54,8 @@ export const updateMessage = async (req: Request, res: Response) => {
   }
 }
 
-// DELETE /api/messages/:id — owner only
 export const deleteMessage = async (req: Request, res: Response) => {
-  const userId = (req as any).user?.id;
+  const userId = (req as any).userId; // แก้ไขให้ตรงกัน
   if (!userId) return res.status(401).json({ error: 'Unauthorized' })
 
   const { id } = req.params

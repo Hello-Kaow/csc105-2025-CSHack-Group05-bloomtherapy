@@ -23,6 +23,7 @@ model HealMessage {
   id        String   @id @default(cuid())
   text      String
   userId    String
+  username  String   @default("Anonymous")
   edited    Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

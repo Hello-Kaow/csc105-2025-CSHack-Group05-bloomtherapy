@@ -5,4 +5,5 @@ export interface HealMessage {
   edited: boolean
   createdAt: string
   updatedAt: string
+  username: string 
 }

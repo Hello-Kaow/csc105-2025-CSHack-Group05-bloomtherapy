@@ -25,7 +25,7 @@ res.send("Server is running 🚀");
 });
 
 app.use("/auth", authRouter);
-app.use('/api/messages', messageRouter)
+app.use('/api/heal-messages', messageRouter)
 
 app.listen(PORT, () => {
     console.log("Server is running on http://localhost:%d", PORT);
