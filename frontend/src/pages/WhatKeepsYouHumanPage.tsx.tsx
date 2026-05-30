@@ -112,7 +112,7 @@ const WhatKeepsYouHuman: React.FC = () => {
   const q = questions[current];
 
   return (
-    <div className="flex min-h-screen bg-[#f5ebe8]">
+    <div className="flex min-h-screen bg-white">
       <Navbar />
 
       {showResult && result && (
