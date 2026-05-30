@@ -7,10 +7,6 @@ import HealHeartMessage from '../pages/HealHeartMessagepage';
 
 const mainRouter = createBrowserRouter([
     {
-        path: "/",
-        element: <Homepage/>
-    },
-    {
         path: "/login",
         element: <Loginpage />
     },

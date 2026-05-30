@@ -1,7 +1,5 @@
-'use client'
-
 import { useState, useEffect, useCallback, useRef } from 'react'
-import type { HealMessage } from '@/types/heal-heart'
+import type { HealMessage } from '../types/heal-heart'
 
 // ─── Username generation (anonymous display) ─────────────────────────────────
 const ADJECTIVES = ['Quiet','Gentle','Brave','Tender','Calm','Soft','Kind','Still','Warm','Lucky','Steady','Humble','Silent','Bold','Lone']
