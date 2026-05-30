@@ -33,11 +33,18 @@ const mainRouter = createBrowserRouter([
         path: "/adddiary",
         element: <AddDiary/>
     },
-    // {
-    //     path: "/journal",
-    //     element: <Journal/>
-    // }
-
+    {
+        path: "/heal-heart",
+        element: <HealHeartWrapper />
+    },
+    {
+        path: "/bucketlist",
+        element: <BucketList />
+    },
+    {
+        path: "/editdiary/:id",
+        element: <EditDiary />
+    }
 ]);
 
 export default mainRouter;

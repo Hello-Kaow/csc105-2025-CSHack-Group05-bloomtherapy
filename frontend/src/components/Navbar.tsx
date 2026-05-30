@@ -14,8 +14,8 @@ import {
 import { useAuth } from "../context/AuthContext";
 
 const navItems = [
-    { label: "Journal", icon: BookOpen, to: "/journal" },
-    { label: "Bucket List", icon: ListChecks, to: "/bucket-list" },
+    { label: "Journal", icon: BookOpen, to: "/" },
+    { label: "Bucket List", icon: ListChecks, to: "/bucketlist" },
     { label: "Humanity Test", icon: Brain, to: "/humanity-test" },
     { label: "Heal Heart", icon: Heart, to: "/heal-heart" },
 ];
