@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import type { ReactNode } from "react";
 import Loginpage from "../pages/Loginpage";
-import BucketList from "../pages/BucketList";
+import BucketList from "../pages/BucketListPage";
 //import Homepage from "../pages/Journal";
 import Signup from "../pages/Signuppage";
 import NewPageforTest from "../pages/NewPageforTest";
