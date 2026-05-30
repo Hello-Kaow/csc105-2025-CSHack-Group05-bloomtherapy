@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { bucketApi } from "../services/bucketApi";
+import { bucketApi } from "../apis/bucketApi";
 import Navbar from "../components/Navbar";
 import ProgressBar from "../components/ProgressBar";
 import BucketCard from "../components/BucketCard";
