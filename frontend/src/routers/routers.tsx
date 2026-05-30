@@ -79,6 +79,19 @@ const mainRouter = createBrowserRouter([
                 path: "*",
                 element: <Navigate to="/" replace />,
             },
+            {
+                path: "humanity-test",
+                element: <HumanityTest />,
+            },
+            {
+                path: "humanitytest/what-keeps-you-human",
+                element: <WhatKeepsYouHuman />,
+            },
+            {
+                path: "humanitytest/what-keeps-you-human/messages",
+                element: <TestMessages />,
+            }
+        
         ],
     },
 ]);
