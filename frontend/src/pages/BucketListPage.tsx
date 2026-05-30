@@ -130,7 +130,7 @@ export default function BucketList() {
                     <img
                         src="/nature.avif"
                         alt=""
-                        className="absolute inset-0 h-full w-full object-cover opacity-[0.4]"
+                        className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none z-0"
                     />
 
                     <div className="absolute inset-0 bg-white/65" />
