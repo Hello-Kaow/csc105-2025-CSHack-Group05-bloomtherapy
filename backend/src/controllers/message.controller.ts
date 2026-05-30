@@ -13,7 +13,7 @@ export const getMessages = async (_req: Request, res: Response) => {
 
 // POST /api/messages — auth required
 export const createMessage = async (req: Request, res: Response) => {
-  const userId = req.user?.id
+  const userId = (req as any).user?.id;
   if (!userId) return res.status(401).json({ error: 'Unauthorized' })
 
   const { text } = req.body
@@ -32,7 +32,7 @@ export const createMessage = async (req: Request, res: Response) => {
 
 // PATCH /api/messages/:id — owner only
 export const updateMessage = async (req: Request, res: Response) => {
-  const userId = req.user?.id
+  const userId = (req as any).user?.id;
   if (!userId) return res.status(401).json({ error: 'Unauthorized' })
 
   const { id } = req.params
@@ -44,11 +44,11 @@ export const updateMessage = async (req: Request, res: Response) => {
     return res.status(400).json({ error: 'Text must be 500 characters or less' })
 
   try {
-    const existing = await MessageModel.findById(id)
+    const existing = await MessageModel.findById(id as string);
     if (!existing) return res.status(404).json({ error: 'Message not found' })
     if (existing.userId !== userId) return res.status(403).json({ error: 'Forbidden' })
 
-    const updated = await MessageModel.update(id, text.trim())
+    const updated = await MessageModel.update(id as string, text.trim())
     res.json(updated)
   } catch {
     res.status(500).json({ error: 'Failed to update message' })
@@ -57,17 +57,17 @@ export const updateMessage = async (req: Request, res: Response) => {
 
 // DELETE /api/messages/:id — owner only
 export const deleteMessage = async (req: Request, res: Response) => {
-  const userId = req.user?.id
+  const userId = (req as any).user?.id;
   if (!userId) return res.status(401).json({ error: 'Unauthorized' })
 
   const { id } = req.params
 
   try {
-    const existing = await MessageModel.findById(id)
+    const existing = await MessageModel.findById(id as string)
     if (!existing) return res.status(404).json({ error: 'Message not found' })
     if (existing.userId !== userId) return res.status(403).json({ error: 'Forbidden' })
 
-    await MessageModel.delete(id)
+    await MessageModel.delete(id as string)
     res.json({ success: true })
   } catch {
     res.status(500).json({ error: 'Failed to delete message' })

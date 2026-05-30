@@ -90,7 +90,7 @@ export default function Login(){
                             type="button"
                             onClick={handleLogin}
                             disabled={isLoading}
-                            className="flex justify-center items-center bg-gray-400 w-[80px] h-[30px] rounded-[100px] text-white text-[10px] font-bold tracking-widest m-[20px] md:text-[14px] md:w-[120px] md:h-[42px] md:m-[40px] disabled:opacity-70 disabled:cursor-not-allowed">
+                            className="flex justify-center items-center bg-[#A2D0AA] w-[80px] h-[30px] rounded-[100px] text-white text-[10px] font-bold tracking-widest m-[20px] md:text-[14px] md:w-[120px] md:h-[42px] md:m-[40px] disabled:opacity-70 disabled:cursor-not-allowed">
                         {isLoading ? (
                             <span className="w-[14px] h-[14px] md:w-[18px] md:h-[18px] border-2 border-white border-t-transparent rounded-full animate-spin" />
                         ) : (

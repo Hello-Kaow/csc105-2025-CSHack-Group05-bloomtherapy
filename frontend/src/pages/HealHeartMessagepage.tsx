@@ -1,19 +1,30 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import type { HealMessage } from '../types/heal-heart'
-
+import type { HealMessage } from '../../types/heal-heart'
+import Navbar from '../components/Navbar'
+import EditMessageModal from '../popup/EditMessageModal'
 // ─── Username generation (anonymous display) ─────────────────────────────────
 const ADJECTIVES = ['Quiet','Gentle','Brave','Tender','Calm','Soft','Kind','Still','Warm','Lucky','Steady','Humble','Silent','Bold','Lone']
 const NOUNS = ['Survivor','Soul','Ember','Dawn','Echo','Star','Leaf','Flame','Reed','Shore','Drift','Bloom','Ash','Wind','Rain']
 
-function hashCode(s: string): number {
-  let h = 0
-  for (let i = 0; i < s.length; i++) h = (Math.imul(31, h) + s.charCodeAt(i)) | 0
-  return Math.abs(h)
+function hashCode(s: any): number {
+  // 🛡️ ป้องกันชั้นที่ 1: ถ้า s ไม่มีค่า (undefined/null) ให้หยุดทำแล้วคืนค่า 0 ไปเลย แอปจะไม่พัง
+  if (!s) return 0; 
+  
+  // 🛡️ ป้องกันชั้นที่ 2: บังคับแปลงเป็น String ชัวร์ๆ
+  const str = String(s); 
+  
+  let h = 0;
+  for (let i = 0; i < str.length; i++) {
+    h = (Math.imul(31, h) + str.charCodeAt(i)) | 0;
+  }
+  return Math.abs(h);
 }
 
-function generateUsername(userId: string): string {
-  const h = hashCode(userId)
-  return `${ADJECTIVES[h % ADJECTIVES.length]} ${NOUNS[(h >> 4) % NOUNS.length]}`
+function generateUsername(userId: any): string {
+  // 🛡️ ป้องกันชั้นที่ 3: ถ้าไม่มี ID ส่งมา ให้ใช้คำว่า "anonymous" แทน
+  const safeId = userId ? String(userId) : "anonymous";
+  const h = hashCode(safeId);
+  return `${ADJECTIVES[h % ADJECTIVES.length]} ${NOUNS[(h >> 4) % NOUNS.length]}`;
 }
 
 function timeAgo(dateStr: string): string {
@@ -44,7 +55,7 @@ export default function HealHeartMessage({ token, currentUserId }: HealHeartMess
   const [error, setError] = useState<string | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const MAX = 500
-
+  const [showEditModal, setShowEditModal] = useState(false)
   const authHeaders: HeadersInit = {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${token}`,
@@ -138,7 +149,7 @@ export default function HealHeartMessage({ token, currentUserId }: HealHeartMess
   }
 
   // ─── Derived ────────────────────────────────────────────────────────────────
-  const myUsername = generateUsername(currentUserId)
+  const myUsername = generateUsername(currentUserId || 'anonymous-user')
   const myCount = messages.filter(m => m.userId === currentUserId).length
   const remaining = MAX - charCount
 
@@ -149,7 +160,7 @@ export default function HealHeartMessage({ token, currentUserId }: HealHeartMess
         href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap"
         rel="stylesheet"
       />
-
+      <Navbar />
       <div className="max-w-[980px] mx-auto px-4 py-8 sm:py-10 sm:px-8 lg:px-6 pb-16 font-['DM_Sans',_sans-serif] text-[#2d4a2d]">
         
         {/* ── Header ── */}
@@ -210,17 +221,16 @@ export default function HealHeartMessage({ token, currentUserId }: HealHeartMess
             placeholder="Type your message ..."
             aria-label="Message text"
           />
-          <div className="border-t border-[#c0d8c0] mt-3 pt-3 flex justify-between items-center">
-            <span className="text-[11px] text-[#aac8aa]">Ctrl+Enter to post</span>
-            <button
-              className="bg-[#7aaa7a] text-white border-none rounded-[7px] px-7 py-2 font-['DM_Sans',_sans-serif] text-[13px] font-medium tracking-wide cursor-pointer transition-all duration-150 hover:not(:disabled):opacity-85 active:not(:disabled):scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
-              onClick={handlePost}
-              disabled={!text.trim() || posting}
-              aria-label="Post message"
-            >
-              {posting ? 'Posting…' : 'POST'}
-            </button>
-          </div>
+          <div className="border-t border-[#c0d8c0] mt-3 pt-3 flex justify-end items-center">
+    <button
+        className="bg-[#7aaa7a] text-white border-none rounded-[7px] px-7 py-2 font-['DM_Sans',_sans-serif] text-[13px] font-medium tracking-wide cursor-pointer transition-all duration-150 hover:not(:disabled):opacity-85 active:not(:disabled):scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
+        onClick={handlePost}
+        disabled={!text.trim() || posting}
+        aria-label="Post message"
+    >
+        {posting ? 'Posting…' : 'POST'}
+    </button>
+</div>
         </div>
 
         {/* ── Messages grid ── */}
@@ -300,7 +310,7 @@ export default function HealHeartMessage({ token, currentUserId }: HealHeartMess
                             <div className="flex gap-2">
                               <button
                                 className="bg-transparent border-none cursor-pointer font-['DM_Sans',_sans-serif] text-xs p-0 transition-opacity duration-150 hover:opacity-60 text-[#7aaa7a]"
-                                onClick={() => { setEditingId(m.id); setEditText(m.text) }}
+                                onClick={() => { setEditingId(m.id); setEditText(m.text); setShowEditModal(true) }}
                                 aria-label="Edit message"
                               >
                                 edit
@@ -324,6 +334,14 @@ export default function HealHeartMessage({ token, currentUserId }: HealHeartMess
           </div>
         )}
       </div>
+      {showEditModal && editingId && (
+  <EditMessageModal
+    editText={editText}
+    onChange={setEditText}
+    onSave={() => { handleEditSave(editingId); setShowEditModal(false) }}
+    onCancel={() => setShowEditModal(false)}
+  />
+)}
     </>
   )
 }
