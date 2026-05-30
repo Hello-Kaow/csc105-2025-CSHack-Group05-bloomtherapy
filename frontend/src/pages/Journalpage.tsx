@@ -4,12 +4,16 @@ import Diary from "../components/Diary";
 import { NavLink } from "react-router-dom";
 import { journalApi, type Diary as DiaryType } from "../apis/journalApi";
 import { quoteApi } from "../apis/quoteApi";
+import LoginRequiredPopup from "../components/LoginRequiredPopup";
 
 export default function Journal(){
     const [quote, setQuote] = useState("Make sure you live.");
     const [isEditing, setIsEditing] = useState(false);
     const [editText, setEditText] = useState("");
     const [diaries, setDiaries] = useState<DiaryType[]>([]);
+    const [showLoginPopup, setShowLoginPopup] = useState(false);
+
+    const isLoggedIn = () => !!localStorage.getItem("token");
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -82,7 +86,10 @@ export default function Journal(){
                         {/* edit button */}
                         {!isEditing && (
                             <button
-                                onClick={() => { setEditText(quote); setIsEditing(true); }}
+                                onClick={() => {
+                                    if (!isLoggedIn()) { setShowLoginPopup(true); return; }
+                                    setEditText(quote); setIsEditing(true);
+                                }}
                                 className="absolute bottom-[10px] right-[10px] bg-white/30 hover:bg-white/50 rounded-full p-[6px]"
                             >
                                 <img src="public/edit.svg" alt="edit" className="w-[16px] h-[16px] md:w-[20px] md:h-[20px]"/>
@@ -91,10 +98,16 @@ export default function Journal(){
                     </div>
 
                     {/* add button */}
-                    <NavLink to = "/adddiary" className="flex flex-row justify-center items-center bg-[#81C784] w-[128px] h-[36px] text-[14px] text-white rounded-[8px] gap-2 md:w-[171px] md:h-[44px] md:gap-4">
+                    <button
+                        onClick={() => {
+                            if (!isLoggedIn()) { setShowLoginPopup(true); return; }
+                            window.location.href = "/adddiary";
+                        }}
+                        className="flex flex-row justify-center items-center bg-[#81C784] w-[128px] h-[36px] text-[14px] text-white rounded-[8px] gap-2 md:w-[171px] md:h-[44px] md:gap-4"
+                    >
                         <img src="public/pencil.svg" alt="pencil" className="w-[10px] h-[10px] md:w-[14px] md:h-[14px]"/>
                         ADD DIARY
-                    </NavLink>
+                    </button>
                 </div>
 
                 {/* display diary */}
@@ -104,6 +117,11 @@ export default function Journal(){
                     ))}
                 </div>
             </div>
+
+            <LoginRequiredPopup
+                isOpen={showLoginPopup}
+                onClose={() => setShowLoginPopup(false)}
+            />
         </div>
     );
 }
