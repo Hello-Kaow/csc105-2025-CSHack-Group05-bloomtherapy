@@ -1,5 +1,6 @@
 import { PrismaLibSql } from "@prisma/adapter-libsql";
 import { PrismaClient } from "../generated/prisma/client.js";
+
 import "dotenv/config";
 
 const connectionString = process.env.DATABASE_URL ?? "file:./dev.db";
