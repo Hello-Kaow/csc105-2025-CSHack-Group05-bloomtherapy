@@ -1,5 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
-import type { ReactNode } from "react";
+import { createBrowserRouter } from "react-router-dom";
 import Loginpage from "../pages/Loginpage";
 //import Homepage from "../pages/Journal";
 import Signup from "../pages/Signuppage";
@@ -27,11 +26,11 @@ const mainRouter = createBrowserRouter([
         element: <HumanityTest/>
     },
     {
-        path:"/humanity-test/what-keeps-you-human",
+        path:"/humanitytest/what-keeps-you-human",
         element:<WhatKeepsYouHuman />
     },
     {
-        path: "/humanity-test/what-keeps-you-human/messages",
+        path: "/humanitytest/what-keeps-you-human/messages",
         element: <TestMessages />
     },
 ]);

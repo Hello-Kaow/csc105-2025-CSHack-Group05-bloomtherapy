@@ -15,7 +15,7 @@ const questions: QuestionCard[] = [
   {
     image: view3,
     label: "What keeps you human?",
-    route: "/humanity-test/what-keeps-you-human",
+    route: "/humanitytest/what-keeps-you-human",
   },
 ];
 
