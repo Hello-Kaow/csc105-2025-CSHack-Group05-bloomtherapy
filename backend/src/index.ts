@@ -23,11 +23,13 @@ if (!process.env.JWT_SECRET) {
 }
 
 app.use(
-    cors({
-        origin: "http://localhost:5173",
-        credentials: true,
-    })
-);
+  cors({
+    origin: true, 
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+)
+
 
 // Parse JSON bodies before route handlers are mounted
 app.use(express.json());

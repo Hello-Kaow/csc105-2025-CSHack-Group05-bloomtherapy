@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate, Outlet, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-
+import Navbar from "../components/Navbar";
 import Loginpage from "../pages/Loginpage";
 import BucketList from "../pages/BucketListPage";
 import Signup from "../pages/Signuppage";
@@ -35,13 +35,18 @@ const HealHeartWrapper = () => {
 
 const AnimatedLayout = () => {
     const location = useLocation();
+    const isBucketListPage = location.pathname === "/bucketlist";
 
     return (
-        <AnimatePresence mode="wait">
-            <PageTransition key={location.pathname}>
-                <Outlet />
-            </PageTransition>
-        </AnimatePresence>
+        <>
+            {isBucketListPage && <Navbar />}
+
+            <AnimatePresence mode="wait" initial={false}>
+                <PageTransition key={location.pathname}>
+                    <Outlet />
+                </PageTransition>
+            </AnimatePresence>
+        </>
     );
 };
 

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { bucketApi } from "../apis/bucketApi";
-import Navbar from "../components/Navbar";
+
 import ProgressBar from "../components/ProgressBar";
 import BucketCard from "../components/BucketCard";
 import BucketEditPopup from "../components/BucketEditPopup";
@@ -154,7 +154,7 @@ export default function BucketList() {
 
     return (
         <>
-            <Navbar />
+         
 
             <main className="relative min-h-screen bg-white lg:ml-52 px-8 md:px-16 lg:px-28 py-16 overflow-hidden">
                 {/* Nature background */}
@@ -174,7 +174,7 @@ export default function BucketList() {
 
                 <section className="relative z-10 max-w-6xl mx-auto">
                     <h1 className="text-4xl md:text-5xl font-bold text-[#7fa17d]">
-                        The Bucket List
+                        The Bucket List 🌸
                     </h1>
 
                     <p className="mt-4 max-w-3xl text-lg text-[#9ba3b8] leading-relaxed">
@@ -218,7 +218,7 @@ export default function BucketList() {
                         <button
                             type="button"
                             onClick={addBucket}
-                            className="bg-[#8daa96] hover:bg-[#7f9f87] text-white font-bold px-8 py-3 rounded-md shadow transition whitespace-nowrap"
+                            className="bg-[#8daa96] hover:bg-[#7f9f87] hover:scale-105 active:scale-95 text-white font-bold px-8 py-3 rounded-md shadow transition-all duration-200 whitespace-nowrap"
                         >
                             ADD BUCKET
                         </button>
