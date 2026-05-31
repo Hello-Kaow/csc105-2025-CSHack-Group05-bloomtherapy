@@ -46,7 +46,12 @@ export default function HealHeartMessage({ token, currentUserId, username }: Hea
     }
   }, [token])
 
-  useEffect(() => { fetchMessages() }, [fetchMessages])
+  // Fixed: added polling every 10s so all users see new messages without refreshing
+  useEffect(() => {
+    fetchMessages()
+    const interval = setInterval(fetchMessages, 10000)
+    return () => clearInterval(interval)
+  }, [fetchMessages])
 
   // ─── Derived ────────────────────────────────────────────────────────────────
   const displayName = username?.trim() || 'Anonymous'

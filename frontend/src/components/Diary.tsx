@@ -8,7 +8,7 @@ type Props = {
 
 export default function Diary({ diary, onDelete }: Props){
     const navigate = useNavigate();
-    const formattedDate = new Date(diary.date).toLocaleDateString("th-TH", {
+    const formattedDate = new Date(diary.date).toLocaleDateString("en-GB", {
         year: "numeric", month: "long", day: "numeric",
     });
 
@@ -20,11 +20,11 @@ export default function Diary({ diary, onDelete }: Props){
                     {diary.title}
                 </div>
 
-                <div className="text-[12px] mx-[20px] line-clamp-2">
+                <div className="text-[12px] mx-[20px] font-semibold text-[#575E56] whitespace-pre-wrap break-words">
                     {diary.story}
                 </div>
 
-                <div className="flex flex-row justify-between items-center text-[12px] mx-[20px] mb-[20px]">
+                <div className="flex flex-row justify-between font-semibold text-[#575E56] items-center text-[12px] mx-[20px] mb-[20px]">
                     {formattedDate}
 
                     {/* button delete/edit */}
