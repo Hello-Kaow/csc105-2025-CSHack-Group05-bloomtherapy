@@ -2,45 +2,55 @@ import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Diary from "../components/Diary";
 import { NavLink } from "react-router-dom";
+import { journalApi, type Diary as DiaryType } from "../apis/journalApi";
+import { quoteApi } from "../apis/quoteApi";
+import LoginRequiredPopup from "../components/LoginRequiredPopup";
 
 export default function Journal(){
     const [quote, setQuote] = useState("Make sure you live.");
     const [isEditing, setIsEditing] = useState(false);
     const [editText, setEditText] = useState("");
+    const [diaries, setDiaries] = useState<DiaryType[]>([]);
+    const [showLoginPopup, setShowLoginPopup] = useState(false);
+
+    const isLoggedIn = () => !!localStorage.getItem("token");
 
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) return;
-        fetch("http://localhost:3000/quote", {
-            headers: { Authorization: `Bearer ${token}` },
-        })
-            .then((res) => res.json())
+
+        quoteApi.getQuote()
             .then((data) => setQuote(data.text))
+            .catch(() => {});
+
+        journalApi.getDiaries()
+            .then((data) => setDiaries(data))
             .catch(() => {});
     }, []);
 
     const handleSave = async () => {
-        const token = localStorage.getItem("token");
-        if (!token) return;
         try {
-            const res = await fetch("http://localhost:3000/quote", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({ text: editText }),
-            });
-            if (res.ok) {
-                const data = await res.json();
-                setQuote(data.text);
-            }
+            const data = await quoteApi.updateQuote(editText);
+            setQuote(data.text);
         } catch {}
         setIsEditing(false);
     };
 
+    const handleDelete = async (id: string) => {
+        try {
+            await journalApi.deleteDiary(id);
+            setDiaries((prev) => prev.filter((d) => d.id !== id));
+        } catch {}
+    };
+
     return(
-        <div className="min-h-screen">
+        <div className="relative min-h-screen overflow-hidden">
+            {/* Background */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+                <img src="/Wall 1.svg" alt="" className="absolute inset-0 w-full h-full object-cover opacity-40"/>
+                <div className="absolute inset-0 bg-white/65"/>
+            </div>
+
             <Navbar/>
 
             {/* project name */}
@@ -49,7 +59,7 @@ export default function Journal(){
             {/* dummy height — space below top navbar on desktop */}
             <div className="h-[63.68px] hidden xl:block"></div>
 
-            <div className="flex flex-col justify-center items-center lg:ml-52 lg:w-[calc(100%-208px)]">
+            <div className="relative z-10 flex flex-col justify-center items-center lg:ml-52 lg:w-[calc(100%-208px)]">
                 <div className="flex flex-col justify-center items-start mt-[20px] gap-[20px]">
 
                     {/* view — image with quote overlay */}
@@ -73,8 +83,8 @@ export default function Journal(){
                                     maxLength={100}
                                 />
                                 <div className="flex gap-2">
-                                    <button onClick={handleSave} className="bg-[#81C784] text-white text-[12px] md:text-[14px] px-3 py-1 rounded-[6px]">Save</button>
-                                    <button onClick={() => setIsEditing(false)} className="bg-gray-400 text-white text-[12px] md:text-[14px] px-3 py-1 rounded-[6px]">Cancel</button>
+                                    <button onClick={handleSave} className="bg-[#81C784] text-white text-[12px] md:text-[14px] px-3 py-1 rounded-[6px] hover:scale-105 transition-transform cursor-pointer">Save</button>
+                                    <button onClick={() => setIsEditing(false)} className="bg-gray-400 text-white text-[12px] md:text-[14px] px-3 py-1 rounded-[6px] hover:scale-105 transition-transform cursor-pointer">Cancel</button>
                                 </div>
                             </div>
                         )}
@@ -82,8 +92,11 @@ export default function Journal(){
                         {/* edit button */}
                         {!isEditing && (
                             <button
-                                onClick={() => { setEditText(quote); setIsEditing(true); }}
-                                className="absolute bottom-[10px] right-[10px] bg-white/30 hover:bg-white/50 rounded-full p-[6px]"
+                                onClick={() => {
+                                    if (!isLoggedIn()) { setShowLoginPopup(true); return; }
+                                    setEditText(quote); setIsEditing(true);
+                                }}
+                                className="absolute bottom-[10px] right-[10px] bg-white/30 hover:bg-white/50 rounded-full p-[6px] hover:scale-110 transition-transform cursor-pointer"
                             >
                                 <img src="public/edit.svg" alt="edit" className="w-[16px] h-[16px] md:w-[20px] md:h-[20px]"/>
                             </button>
@@ -91,20 +104,30 @@ export default function Journal(){
                     </div>
 
                     {/* add button */}
-                    <NavLink to = "/adddiary" className="flex flex-row justify-center items-center bg-[#81C784] w-[128px] h-[36px] text-[14px] text-white rounded-[8px] gap-2 md:w-[171px] md:h-[44px] md:gap-4">
+                    <button
+                        onClick={() => {
+                            if (!isLoggedIn()) { setShowLoginPopup(true); return; }
+                            window.location.href = "/adddiary";
+                        }}
+                        className="flex flex-row justify-center items-center bg-[#81C784] w-[128px] h-[36px] text-[14px] text-white rounded-[8px] gap-2 md:w-[171px] md:h-[44px] md:gap-4 hover:scale-105 transition-transform cursor-pointer"
+                    >
                         <img src="public/pencil.svg" alt="pencil" className="w-[10px] h-[10px] md:w-[14px] md:h-[14px]"/>
                         ADD DIARY
-                    </NavLink>
+                    </button>
                 </div>
 
                 {/* display diary */}
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mt-[20px] gap-[10px]">
-                    <Diary/>
-                    <Diary/>
-                    <Diary/>
-                    <Diary/>
+                    {diaries.map((diary) => (
+                        <Diary key={diary.id} diary={diary} onDelete={handleDelete} />
+                    ))}
                 </div>
             </div>
+
+            <LoginRequiredPopup
+                isOpen={showLoginPopup}
+                onClose={() => setShowLoginPopup(false)}
+            />
         </div>
     );
 }

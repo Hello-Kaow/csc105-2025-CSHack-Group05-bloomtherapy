@@ -103,7 +103,7 @@ export default function Navbar() {
     return (
         <>
             {/* ===== DESKTOP SIDEBAR (lg+) ===== */}
-            <aside className="hidden lg:flex flex-col w-52 min-h-screen bg-[#8aad8a] text-white py-6 px-3 fixed top-0 left-0 z-40">
+            <aside className="hidden lg:flex flex-col w-52 h-full min-h-screen bg-[#8aad8a] text-white py-6 px-3 fixed top-0 left-0 z-40">
                 <SidebarContent />
             </aside>
 
