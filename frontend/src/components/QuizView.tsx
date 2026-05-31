@@ -13,7 +13,7 @@ interface Props {
 
 const QuizView: React.FC<Props> = ({ question, current, total, selected, setSelected, onNext, progress }) => {
   return (
-    <div className="flex gap-6 items-stretch flex-1 w-full max-w-md lg:max-w-none">
+    <div className="flex gap-6 items-stretch flex-1 w-full max-w-md md:max-w-3xl lg:max-w-none">
       <div className="hidden lg:block w-56 flex-shrink-0 rounded-2xl overflow-hidden shadow-lg">
         <img src="/view test.svg" alt="mountain view" className="w-full h-full object-cover" />
       </div>
@@ -36,7 +36,7 @@ const QuizView: React.FC<Props> = ({ question, current, total, selected, setSele
             <button
               key={idx}
               onClick={() => setSelected(idx)}
-              className={`flex items-center gap-3 rounded-xl px-4 py-4 md:py-6 lg:py-10 text-left text-[12px] md:text-[14px] lg:text-[20px] font-sans font-medium transition-all duration-150 w-full ${
+              className={`flex items-center gap-3 rounded-xl px-4 py-4 md:py-8 lg:py-10 text-left text-[12px] md:text-[17px] lg:text-[20px] font-sans font-medium transition-all duration-150 w-full ${
                 selected === idx
                   ? "bg-[#b8d4b8] border-2 border-[#7a9e7e] text-[#3a5a3a]"
                   : "bg-[#c8dcc8] border-2 border-transparent text-[#4a6b4a] hover:bg-[#bdd4bd]"

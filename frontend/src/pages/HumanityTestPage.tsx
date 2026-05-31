@@ -16,6 +16,16 @@ const questions: QuestionCard[] = [
     label: "What keeps you human?",
     route: "/humanitytest/what-keeps-you-human",
   },
+  {
+    image: "/view2.svg",
+    label: "What scares you more\nthan the end of the world?",
+    route: "/humanitytest/what-scares-you",
+  },
+  {
+    image: "/view1.svg",
+    label: "How are you, really?",
+    route: "/humanitytest/how-are-you",
+  },
 ];
 
 const HumanityTest: React.FC = () => {
@@ -47,7 +57,7 @@ const HumanityTest: React.FC = () => {
 
       <main
         className="flex-1 min-h-screen flex flex-col items-center
-                   px-8 pt-10 pb-8 box-border lg:ml-52 lg:pl-10 relative"
+                   px-12 md:px-16 lg:px-20 pt-10 pb-8 box-border lg:ml-52 relative"
         style={{
           backgroundImage: "url('/view nature.jpg')",
           backgroundSize: "cover",
@@ -55,7 +65,7 @@ const HumanityTest: React.FC = () => {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="absolute inset-0 bg-white/70" />
+        <div className="absolute inset-0 bg-white/90" />
 
         <div className="relative z-10 w-full flex flex-col items-center">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#7a9e7e] mb-2 tracking-tight">
@@ -66,14 +76,14 @@ const HumanityTest: React.FC = () => {
             identity tethers in isolated environments.
           </p>
 
-          <div className="flex flex-wrap justify-center gap-8 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full place-items-center sm:place-items-start">
             {questions.map((q, i) => (
               <div
                 key={i}
                 onClick={() => setSelectedTest(q)}
                 className="flex flex-col items-center cursor-pointer
                            transition-transform duration-200 hover:-translate-y-1
-                           w-64 md:w-80 lg:w-96"
+                           w-56 sm:w-full"
               >
                 <div className="w-full aspect-[4/3] rounded-xl overflow-hidden shadow-md bg-[#d6c9c0] mb-3">
                   <img
