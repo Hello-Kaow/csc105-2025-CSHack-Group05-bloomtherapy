@@ -49,7 +49,7 @@ const TestEntryPopup: React.FC<Props> = ({ testName, route, onClose }) => {
         {/* Buttons */}
         <div className="flex flex-col gap-2 md:gap-3">
           <button
-            onClick={() => { onClose(); navigate('/humanitytest/what-keeps-you-human') }}
+            onClick={() => { onClose(); navigate(route) }}
             className="w-full py-2.5 md:py-3 rounded-xl 
             text-xs md:text-sm font-sans font-medium tracking-widest uppercase 
             text-white transition-all duration-150"

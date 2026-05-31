@@ -6,12 +6,14 @@ import BucketList from "../pages/BucketListPage";
 import Signup from "../pages/Signuppage";
 import HumanityTest from "../pages/HumanityTestPage";
 import WhatKeepsYouHuman from "../pages/WhatKeepsYouHumanPage.tsx";
-import TestMessages from "../pages/TestMessagesPage.tsx.tsx";
+import TestMessages from "../pages/TestMessagesPage.tsx";
 import Journal from "../pages/Journalpage";
 import AddDiary from "../pages/AddDiary";
 import EditDiary from "../pages/EditDiary";
 import HealHeartMessage from "../pages/HealHeartMessagepage";
 import PageTransition from "../components/PageTransition";
+import WhatScaresYou from "../pages/WhatScaresYouPage";
+import HowAreYou from "../pages/HowAreYouPage";
 
 import { useAuth } from "../context/AuthContext";
 
@@ -80,10 +82,10 @@ const mainRouter = createBrowserRouter([
                 path: "editdiary/:id",
                 element: <EditDiary />,
             },
-            {
-                path: "*",
-                element: <Navigate to="/" replace />,
-            },
+            // {
+            //     path: "*",
+            //     element: <Navigate to="/" replace />,
+            // },
             {
                 path: "humanity-test",
                 element: <HumanityTest />,
@@ -95,7 +97,28 @@ const mainRouter = createBrowserRouter([
             {
                 path: "humanitytest/what-keeps-you-human/messages",
                 element: <TestMessages />,
-            }
+            },
+            {
+                path: "humanitytest/what-scares-you",
+                element: <WhatScaresYou />,
+            },
+            {
+                path: "humanitytest/what-scares-you/messages",
+                element: <TestMessages />,
+            },
+            {
+                path: "humanitytest/how-are-you",
+                element: <HowAreYou />,
+            },
+            {
+                path: "humanitytest/how-are-you/messages",
+                element: <TestMessages />,
+
+            },
+            {
+                path: "*",
+                element: <Navigate to="/" replace />,
+            },
         
         ],
     },
