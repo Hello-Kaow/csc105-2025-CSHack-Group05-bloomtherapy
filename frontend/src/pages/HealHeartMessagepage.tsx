@@ -56,7 +56,7 @@ export default function HealHeartMessage({ token, currentUserId, username }: Hea
   // ─── Derived ────────────────────────────────────────────────────────────────
   const displayName = username?.trim() || 'Anonymous'
   const myCount     = messages.filter(m => m.userId === currentUserId).length
-  const remaining   = MAX - charCount 
+  const remaining   = MAX - charCount
 
   // ─── Post ───────────────────────────────────────────────────────────────────
   async function handlePost() {
