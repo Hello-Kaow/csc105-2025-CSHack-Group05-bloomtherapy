@@ -24,8 +24,7 @@ An anonymous community message board set in a warm, apocalyptic-themed forest UI
 
 A 10-question self-reflection test that helps users discover what emotionally keeps them going in an apocalyptic world. Based on their answers, users receive a personalized survivor type result. The Protector, The Hope Keeper, or The Drifter, along with a description of their emotional core and what helps them heal. After completing the test, users can leave an anonymous message for others taking the same test and browse a public Message Board to read what others have shared, no login required.
 
-#
-
+# Technology Stack
 ### Frontend
 The frontend of this project was developed using:
 * React – for building the user interface
@@ -53,9 +52,7 @@ The database system used in this project:
 * Prisma ORM – for database management and querying
 * LibSQL / SQLite – database storage used in development
 
-#
-
-## How to Run the Project
+# How to Run the Project
 
 ### For the Host Machine (Server)
 
@@ -128,19 +125,15 @@ npm run dev
 # Terminal 2
 cd frontend
 npm run dev
-```
+``` 
 
-# 
-
-## Additional Notes
+# Additional Notes
 * Make sure Node.js and npm are installed before running the project.
 * The backend and frontend must both be running for the full system to work correctly.
 * Environment variables may be required depending on local setup.
 * This project was developed for educational purposes.
 
-# 
-
-## Group Member
+# Group Member
 1. 68130500812 CHAYANAN PANSA             
 2. 68130500821 MONGKOL SRIBURIN 
 3. 68130500856 JARUKITT EIUSEEYOK 
