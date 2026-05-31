@@ -95,6 +95,7 @@ const WhatKeepsYouHuman: React.FC = () => {
   }
 
   if (error) {
+    console.log(error)
     return (
       <div className="flex min-h-screen bg-[#f5ebe8] items-center justify-center">
         <p className="text-red-600 font-sans text-sm tracking-widest uppercase">{error}</p>
