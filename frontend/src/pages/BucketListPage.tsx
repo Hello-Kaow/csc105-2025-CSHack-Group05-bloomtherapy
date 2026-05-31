@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { bucketApi } from "../apis/bucketApi";
-import Navbar from "../components/Navbar";
+
 import ProgressBar from "../components/ProgressBar";
 import BucketCard from "../components/BucketCard";
 import BucketEditPopup from "../components/BucketEditPopup";
@@ -154,7 +154,7 @@ export default function BucketList() {
 
     return (
         <>
-            <Navbar />
+         
 
             <main className="relative min-h-screen bg-white lg:ml-52 px-8 md:px-16 lg:px-28 py-16 overflow-hidden">
                 {/* Nature background */}
