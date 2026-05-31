@@ -24,8 +24,3 @@ dist-ssr
 *.sw?
 
 /src/generated/prisma
-dev.db
-*.db
-
-.env
-.env.*
