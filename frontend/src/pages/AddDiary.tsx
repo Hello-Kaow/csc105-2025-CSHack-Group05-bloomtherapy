@@ -33,7 +33,13 @@ export default function AddDiary(){
     };
 
     return(
-        <div className="min-h-screen">
+        <div className="relative min-h-screen overflow-hidden">
+            {/* Background */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+                <img src="/Wall 1.svg" alt="" className="absolute inset-0 w-full h-full object-cover opacity-40"/>
+                <div className="absolute inset-0 bg-white/65"/>
+            </div>
+
             <Navbar/>
 
             {/* project name */}
@@ -42,7 +48,7 @@ export default function AddDiary(){
             {/* dummy height — space below top navbar on desktop */}
             <div className="h-[63.68px] hidden xl:block"></div>
 
-            <div className="flex flex-col justify-center items-center min-h-[calc(100vh-63.68px)] lg:ml-52 lg:w-[calc(100%-208px)]">
+            <div className="relative z-10 flex flex-col justify-center items-center min-h-[calc(100vh-63.68px)] lg:ml-52 lg:w-[calc(100%-208px)]">
                 {/* Add diary section */}
                 <div className="flex flex-col justify-center items-center">
                     <div className="bg-[#E0E0E0] w-[359px] rounded-[10px] md:w-[440px]">
@@ -81,7 +87,7 @@ export default function AddDiary(){
                         <div className="flex justify-center items-center my-[20px]">
                             <button
                                 onClick={handleSubmit}
-                                className="bg-[#81C784] w-[100px] h-[30px] border-2 border-[#86DD89] rounded-[5px] text-[16px] text-white md:h-[40px] md:text-[20px]">
+                                className="bg-[#81C784] w-[100px] h-[30px] border-2 border-[#86DD89] rounded-[5px] text-[16px] text-white md:h-[40px] md:text-[20px] hover:scale-105 transition-transform cursor-pointer">
                                 Add
                             </button>
                         </div>

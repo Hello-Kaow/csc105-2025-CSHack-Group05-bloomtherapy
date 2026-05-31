@@ -36,7 +36,13 @@ export default function EditDiary(){
     };
 
     return(
-        <div className="min-h-screen">
+        <div className="relative min-h-screen overflow-hidden">
+            {/* Background */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+                <img src="/Wall 1.svg" alt="" className="absolute inset-0 w-full h-full object-cover opacity-40"/>
+                <div className="absolute inset-0 bg-white/65"/>
+            </div>
+
             <Navbar/>
 
             {/* project name */}
@@ -46,7 +52,7 @@ export default function EditDiary(){
             <div className="h-[63.68px] hidden xl:block"></div>
 
             {/* Edit diary section */}
-            <div className="flex flex-col justify-center items-center min-h-[calc(100vh-63.68px)] lg:ml-52 lg:w-[calc(100%-208px)]">
+            <div className="relative z-10 flex flex-col justify-center items-center min-h-[calc(100vh-63.68px)] lg:ml-52 lg:w-[calc(100%-208px)]">
                 <div className="bg-[#E0E0E0] w-[359px] rounded-[10px] md:w-[440px]">
                     <div className="text-[16px] mx-[20px] mt-[20px] md:text-[20px]">
                         Title
@@ -86,7 +92,7 @@ export default function EditDiary(){
                     <div className="flex justify-center items-center my-[20px]">
                         <button
                             onClick={handleSave}
-                            className="bg-[#81C784] w-[100px] h-[30px] border-2 border-[#86DD89] rounded-[5px] text-[16px] text-white md:h-[40px] md:text-[20px]"
+                            className="bg-[#81C784] w-[100px] h-[30px] border-2 border-[#86DD89] rounded-[5px] text-[16px] text-white md:h-[40px] md:text-[20px] hover:scale-105 transition-transform cursor-pointer"
                         >
                             Save
                         </button>

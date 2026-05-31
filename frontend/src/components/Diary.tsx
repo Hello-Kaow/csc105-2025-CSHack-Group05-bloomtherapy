@@ -32,13 +32,13 @@ export default function Diary({ diary, onDelete }: Props){
                         <img
                             src="public/bin.svg"
                             alt="bin"
-                            className="w-[15px] h-[15px] cursor-pointer"
+                            className="w-[15px] h-[15px] cursor-pointer hover:scale-125 transition-transform"
                             onClick={() => onDelete(diary.id)}
                         />
                         <img
                             src="public/edit.svg"
                             alt="pencil"
-                            className="w-[15px] h-[15px] cursor-pointer"
+                            className="w-[15px] h-[15px] cursor-pointer hover:scale-125 transition-transform"
                             onClick={() => navigate(`/editdiary/${diary.id}`, { state: diary })}
                         />
                     </div>
