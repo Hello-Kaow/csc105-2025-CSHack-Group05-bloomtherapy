@@ -46,12 +46,17 @@ export default function HealHeartMessage({ token, currentUserId, username }: Hea
     }
   }, [token])
 
-  useEffect(() => { fetchMessages() }, [fetchMessages])
+  useEffect(() => {
+  fetchMessages()
+  const interval = setInterval(fetchMessages, 5000) 
+  return () => clearInterval(interval)
+}, [fetchMessages])
+
 
   // ─── Derived ────────────────────────────────────────────────────────────────
   const displayName = username?.trim() || 'Anonymous'
   const myCount     = messages.filter(m => m.userId === currentUserId).length
-  const remaining   = MAX - charCount
+  const remaining   = MAX - charCount 
 
   // ─── Post ───────────────────────────────────────────────────────────────────
   async function handlePost() {
