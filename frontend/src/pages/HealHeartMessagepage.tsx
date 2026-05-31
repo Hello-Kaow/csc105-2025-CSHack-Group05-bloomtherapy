@@ -46,12 +46,7 @@ export default function HealHeartMessage({ token, currentUserId, username }: Hea
     }
   }, [token])
 
-  useEffect(() => {
-  fetchMessages()
-  const interval = setInterval(fetchMessages, 5000) 
-  return () => clearInterval(interval)
-}, [fetchMessages])
-
+  useEffect(() => { fetchMessages() }, [fetchMessages])
 
   // ─── Derived ────────────────────────────────────────────────────────────────
   const displayName = username?.trim() || 'Anonymous'
