@@ -1,15 +1,12 @@
 import { Request, Response } from 'express'
 import { MessageModel } from '../models/message.model'
 
-export const getMessages = async (_req: Request, res: Response) => {
+export const getMessage = async (_req: Request, res: Response) => {
   try {
-    const messages = await MessageModel.findAll()
-    if(messages.length === 0) {
-      return res.status(404).json({ error: 'No messages found' })
-    }
-    res.json(messages)
+    const message = await MessageModel.findAll()
+    res.json(message)
   } catch (error) {
-    console.error("🔥 Error fetching messages", error)
+    console.error('🔥 getMessages error:', error)
     res.status(500).json({ error: 'Failed to fetch messages' })
   }
 }
